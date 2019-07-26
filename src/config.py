@@ -115,14 +115,30 @@ class ChatConfig():
         commands = {'timestamp':self.set_timestamp, 'checkuser':self.set_checkuser, \
         'displayping':self.set_display_ping, 'color':self.set_color, \
         'listcolors':self.list_colors, 'config':self.list_config, 'uptime':self.uptime}
+        commands = {'timestamp':(self.set_timestamp, 'Set message timestamp display, usage: [on][off]'), \
+            'checkuser':(self.set_checkuser, 'Set if username is checked with !commands, usage: [on][off]'), \
+            'displayping':(self.set_display_ping, 'Set echoing of Twitch\'s ping messages, usage: [on][off]'), \
+            'color':(self.set_color, 'Set bot username color, usage: color, usage: <colorname>'), \
+            'listcolors':(self.list_colors, 'Prints list of username\'s colors'), \
+            'config':(self.list_config, 'Prints current configurations, usage: config'), \
+            'uptime':(self.uptime, 'Prints uptime, usage: uptime')}
         arg = arg.lower().split()
         arg.append('toggle')
         if arg[0] == 'help':
-            cmd = list(commands.keys())
-            cmd.sort()
-            print('Available commands:')
-            print('\n'.join(cmd))
+            if arg[1] != 'toggle':
+                # display command help
+                if arg[1] in commands:
+                    print('{}\n    {}'.format(arg[1], commands[arg[1]][1]))
+                else:
+                    print('Unkown command')
+            else:
+                # list all commands
+                cmd = list(commands.keys())
+                cmd.sort()
+                print('Available commands:\n  ', end='')
+                print('\n  '.join(cmd))
+                print('For more information on a command, use \'help <command>\'')
         elif arg[0] in commands.keys():
-            commands[arg[0]](arg[1])
+            commands[arg[0]][0](arg[1])
         else:
             print('Unsupported command. Type "help" for a list of available commands:')

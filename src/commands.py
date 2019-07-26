@@ -2,7 +2,7 @@
 import random
 from datetime import datetime
 
-do g:colors_namef display_timestamp(_):
+def display_timestamp(_):
     """ Display current time """
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     msg = 'Current Time: {}\r\n'.format(now)

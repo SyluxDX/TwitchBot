@@ -38,9 +38,10 @@ class ChatTwitch():
         if msg[1][0] == '!':
             args = {'uptime':self.config.start_time, 'user':msg[0]}
             cmd = msg[1][1:]
-            chat_msg = self.cmds[cmd](args)
-            rsp = 'PRIVMSG #{} :{}'.format(self.config.channel, chat_msg)
-            self.irc.send(rsp.encode())
+            if cmd in self.cmds:
+                cmd_rsp = self.cmds[cmd](args)
+                rsp = 'PRIVMSG #{} :{}'.format(self.config.channel, cmd_rsp)
+                self.irc.send(rsp.encode())
         else:
             return
 
